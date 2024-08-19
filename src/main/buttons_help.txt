@@ -1,0 +1,7 @@
+W -> Climb upwards
+S -> Climb downwards / dropping out of a platform
+A -> Move right
+D -> Move left
+R -> Lose a life and respawn
+Space -> Jump
+Space+Space -> Double jump
