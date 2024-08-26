@@ -1,7 +1,5 @@
-package utils
+package core.game
 
-import Birne
-import androidx.compose.runtime.*
 import androidx.compose.ui.input.key.*
 import androidx.compose.ui.input.key.Key.Companion.A
 import androidx.compose.ui.input.key.Key.Companion.D
@@ -9,30 +7,46 @@ import androidx.compose.ui.input.key.Key.Companion.R
 import androidx.compose.ui.input.key.Key.Companion.S
 import androidx.compose.ui.input.key.Key.Companion.Spacebar
 import androidx.compose.ui.input.key.Key.Companion.W
-import core.game.Game
+import core.entity.player.PlayerInput
+import core.entity.player.PlayerSkin
 import core.entity.player.PlayerState.*
-import core.level.Level
-import kotlinx.coroutines.*
+import core.generationEngine.GenerationEngine
+import core.generationEngine.rumble.RumbleEngine
+import core.level.TileID.PLATFORM
 
-@Composable
-fun initNewGame(game: Game) {
-    val xSpeed = (game.state as Level).player.speed
-    val ySpeed = -xSpeed
-    var job: Job? = null
+class GameBuilder {
 
-    val queue = mutableListOf<Key>()
+    private var dungeon = 0
+    private var globalDifficulty = 1
+    private var engine: GenerationEngine = RumbleEngine
+    private var playerInput = PlayerInput(PlayerSkin.Classic)
 
-    DisposableEffect(Unit) {
-        val coroutineScope = CoroutineScope(Dispatchers.Default + SupervisorJob())
+    private var game = Game(blankGameConfig(dungeon, globalDifficulty, playerInput, engine))
 
-        onDispose {
-            job?.cancel()
-            coroutineScope.cancel()
-        }
+    infix fun dungeon(n: Int) {
+        dungeon = n
+    }
+    infix fun difficulty(n: Int) {
+        globalDifficulty = n
+    }
+    infix fun engine(value: GenerationEngine) {
+        engine = value
+    }
+    infix fun skin(value: PlayerSkin) {
+        playerInput.skin = value
+    }
+
+    fun build(): Game {
+        game = Game(blankGameConfig(dungeon, globalDifficulty, playerInput, engine))
+            .apply { level = newLevel() }
+
+        val xSpeed = game.level!!.player.speed
+        val ySpeed = -xSpeed
+        val queue = mutableListOf<Key>()
 
         val handleKeyEvent: (KeyEvent) -> Boolean = { keyEvent ->
 
-            with((game.state as Level).player) {
+            with(game.level!!.player) {
                 // Climb up
                 val w = {
                     queue.remove(W)
@@ -55,13 +69,20 @@ fun initNewGame(game: Game) {
                 }
                 // Climb down
                 val s = {
+                    val levelTiles = game.level!!.config.tileSkeleton
+                    val x = game.level!!.player.x.toInt()
+                    val y = (game.level!!.player.y + 1.5f).toInt()
+
                     queue.remove(S)
                     queue += S
-                    if(isLadder) {
+
+                    if(isLadder && levelTiles[y][x] != PLATFORM) {
                         state = CLIMB
                         vy = -ySpeed
-                    } else if(state in setOf(CLIMB, DROP)) {
+                    } else if(state == CLIMB) {
                         state = IDLE
+                    } else if(state == DROP) {
+                        state = MOVE
                     } else {
                         state = DROP
                     }
@@ -80,21 +101,21 @@ fun initNewGame(game: Game) {
                     if(state != JUMP) {
                         state = JUMP
                         vy = -jumpStrength
-
                     } else if(doubleJumpLeft == 0L) {
                         doubleJumpLeft = doubleJumpCooldown
                         state = JUMP
                         vy = -jumpStrength
-
                     }
                 }
                 val r = {
-                    if((game.state as Level).player.hp > 1) {
+                    if(hp > 1) {
                         queue.remove(R)
                         queue += R
-                        (game.state as Level).player.hp--
-                        (game.state as Level).player.x = (game.state as Level).startPoint.first.toFloat()
-                        (game.state as Level).player.y = (game.state as Level).startPoint.second.toFloat()
+                        hp--
+                        x = game.level!!.config.startPoint.first.toFloat()
+                        y = game.level!!.config.startPoint.second.toFloat() - 0.05f
+
+                        state = IDLE
                     }
                 }
 
@@ -132,8 +153,17 @@ fun initNewGame(game: Game) {
 
             true
         }
-        game.handleKeyEvent = handleKeyEvent
 
-        onDispose { }
+        game.handleKeyEvent = handleKeyEvent
+        return game
     }
+
+    private fun blankGameConfig(
+        dungeon: Int,
+        difficulty: Int, playerInput: PlayerInput,
+        engine: GenerationEngine
+    ): GameConfig {
+        return GameConfig(dungeon, difficulty, 0, playerInput, engine)
+    }
+
 }

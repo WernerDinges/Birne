@@ -8,9 +8,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
-import core.level.skeletonGraph.LevelSkeleton.AIR
-import core.level.skeletonGraph.LevelSkeleton.PLATFORM
-import core.level.skeletonGraph.LevelSkeleton.WALL
+import core.level.TileID.WALL
 
 data class Walker(
     override var x: Float,

@@ -1,5 +1,6 @@
 package core.level
 
+import Birne
 import Birne.cellSize
 import Textures.HEART
 import Textures.HEART_EMPTY
@@ -9,55 +10,40 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.painter.BitmapPainter
-import core.entity.collectable.Collectable
-import core.entity.enemy.NotPlayable
-import core.level.skeletonGraph.LevelSkeleton.FINISH_OPEN
-import core.level.skeletonGraph.LevelSkeleton.LADDER
-import core.level.skeletonGraph.LevelSkeleton.PLATFORM
-import core.level.skeletonGraph.LevelSkeleton.SPIKE
-import core.level.skeletonGraph.LevelSkeleton.VINE
-import core.level.skeletonGraph.LevelSkeleton.WALL
-import core.level.skeletonGraph.generateLevelSkeleton
+import core.level.TileID.FINISH_OPEN
+import core.level.TileID.LADDER
+import core.level.TileID.PLATFORM
+import core.level.TileID.SPIKE
+import core.level.TileID.VINE
+import core.level.TileID.WALL
 import core.entity.player.Player
 import core.entity.player.PlayerInput
 import core.entity.player.PlayerState
-import core.game.Game
+import core.game.GameConfig
 import utils.drawText
 import utils.sizeOfCell
 import kotlin.math.ceil
 import kotlin.math.floor
 
 class Level(
-    private val number: Int,
-    difficulty: Int,
-    playerInput: PlayerInput,
-    private val nextLevel: () -> Unit,
-    private val addCoins: (Int) -> Unit,
-    private val coins: () -> Int
-): Game.State {
-
+    val config: LevelConfig,
+    gameConfig: GameConfig,
+    playerInput: PlayerInput
+) {
     val player: Player
-    var notPlayableEntities = listOf<NotPlayable>()
-    var collectables = listOf<Collectable>()
-    val mapSize = getLevelSize(difficulty)
-    var tileSkeleton = arrayOf<Array<Int>>()
-    var startPoint = 0 to 0
+    val coins = { gameConfig.coins }
     val backgroundTiles: Array<Array<BitmapPainter?>>
 
     init {
-        generateLevelSkeleton(
-            mapSize, difficulty,
-            { tileSkeleton = it },
-            { startPoint = it },
-            { notPlayableEntities = it },
-            { collectables = it },
-            { x, y -> collectables = collectables.filter {!(it.x == x && it.y == y)} },
-            addCoins
+        gameConfig.engine.launch(config, gameConfig)
+
+        backgroundTiles = getBitmapMatrix(config.tileSkeleton)
+
+        player = Player(
+            config.startPoint.first.toFloat(),
+            config.startPoint.second.toFloat() - 0.01f,
+            playerInput
         )
-
-        backgroundTiles = getBitmapMatrix(tileSkeleton)
-
-        player = Player(startPoint.first.toFloat(), startPoint.second.toFloat()-0.01f, playerInput)
     }
 
     fun updateEntities(millis: Long) {
@@ -65,10 +51,10 @@ class Level(
         updateNPCs(millis)
     }
 
-    fun updatePlayer(millis: Long) {
+    private fun updatePlayer(millis: Long) {
         val gap = player.hitboxOffset
         val hitbox = player.hitbox
-        val map = tileSkeleton
+        val map = config.tileSkeleton
 
         val (dx, dy) = Offset(player.vx, player.vy) * (millis.toFloat() / 1000f)
 
@@ -96,11 +82,8 @@ class Level(
             player.state != PlayerState.DROP
 
         // Player hit a wall
-        if(
-            topLeft_dy != WALL && topRight_dy != WALL &&
-            bottomLeft_dy != WALL && bottomRight_dy != WALL &&
-            !platformStep
-        )
+        if(topLeft_dy != WALL && topRight_dy != WALL &&
+                bottomLeft_dy != WALL && bottomRight_dy != WALL && !platformStep)
             player.y += dy
 
         else
@@ -120,10 +103,8 @@ class Level(
                     player.y
 
 
-        if(
-            topLeft_dx != WALL && topRight_dx != WALL &&
-            bottomLeft_dx != WALL && bottomRight_dx != WALL
-        ) {
+        if(topLeft_dx != WALL && topRight_dx != WALL &&
+                bottomLeft_dx != WALL && bottomRight_dx != WALL) {
             player.x += dx
         } else {
             player.x =
@@ -148,14 +129,14 @@ class Level(
         }
 
         // Player jumps on a spike
-        if((bottomLeft == SPIKE && topLeft == SPIKE) || (bottomRight == SPIKE && topRight == SPIKE)){
+        if((bottomLeft == SPIKE && topLeft == SPIKE) || (bottomRight == SPIKE && topRight == SPIKE)) {
             player.hp--
-            player.x = startPoint.first.toFloat()
-            player.y = startPoint.second.toFloat() - 0.01f
+            player.x = config.startPoint.first.toFloat()
+            player.y = config.startPoint.second.toFloat() - 0.01f
         }
 
         // Player hits an enemy
-        for(npc in notPlayableEntities) {
+        for(npc in config.notPlayableEntities) {
             val leftInX = bottomLeftX in (npc.x + npc.hitboxOffset.x)..(npc.x + npc.hitboxOffset.x + npc.hitbox.width)
             val leftInY = bottomLeftY in (npc.y + npc.hitboxOffset.y)..(npc.y + npc.hitboxOffset.y + npc.hitbox.height)
             val rightInX = bottomRightX in (npc.x + npc.hitboxOffset.x)..(npc.x + npc.hitboxOffset.x + npc.hitbox.width)
@@ -163,13 +144,13 @@ class Level(
 
             if((leftInX && leftInY) || (rightInX && rightInY)) {
                 player.hp--
-                player.x = startPoint.first.toFloat()
-                player.y = startPoint.second.toFloat() - 0.01f
+                player.x = config.startPoint.first.toFloat()
+                player.y = config.startPoint.second.toFloat() - 0.01f
             }
         }
 
         // Player collects a collectable
-        for(col in collectables) {
+        for(col in config.collectables) {
             val leftInX = bottomLeftX in (col.x + col.hitboxOffset.x)..(col.x + col.hitboxOffset.x + col.hitbox.width)
             val leftInY = bottomLeftY in (col.y + col.hitboxOffset.y)..(col.y + col.hitboxOffset.y + col.hitbox.height)
             val rightInX = bottomRightX in (col.x + col.hitboxOffset.x)..(col.x + col.hitboxOffset.x + col.hitbox.width)
@@ -182,19 +163,20 @@ class Level(
 
         // Player gets on a door tile
         if(bottomLeft == FINISH_OPEN || bottomRight == FINISH_OPEN)
-            nextLevel()
+            Birne.nextLevel()
 
     }
 
-    fun updateNPCs(millis: Long) {
-        for(npc in notPlayableEntities)
-            npc.thinkAndAct(millis, tileSkeleton, Offset(player.x, player.y))
+    private fun updateNPCs(millis: Long) {
+        for(npc in config.notPlayableEntities)
+            npc.thinkAndAct(millis, config.tileSkeleton, Offset(player.x, player.y))
     }
 
     fun DrawScope.drawMap() {
         val (w, h) = size.width to size.height
-        cellSize = h/(mapSize.second+1)
-        val (offsetX, offsetY) = (w - mapSize.first*cellSize)/2f to (h - mapSize.second*cellSize)/2f
+        cellSize = h/(config.mapSize.second+1)
+        val offsetX = (w - config.mapSize.first*cellSize)/2f
+        val offsetY = (h - config.mapSize.second*cellSize)/2f
 
         for(y in backgroundTiles.indices)
             for(x in backgroundTiles[0].indices)
@@ -208,12 +190,12 @@ class Level(
                         }
                     }
 
-        for(entity in notPlayableEntities)
+        for(entity in config.notPlayableEntities)
             with(entity) {
                 draw(w, offsetX, offsetY)
             }
 
-        for(collectable in collectables)
+        for(collectable in config.collectables)
             with(collectable) {
                 draw(w, offsetX, offsetY)
             }
@@ -247,10 +229,18 @@ class Level(
             }
 
         // Coins
-        drawText("${coins()}", { i -> size.width-(cellSize * (1+"${coins()}".length)) + i * cellSize / 2f }, { 16f })
+        drawText(
+            text = "${coins()}",
+            left = { i -> size.width - cellSize/2f * ("${coins()}".length + 1) + i * cellSize/2f },
+            top = { 16f }
+        )
 
         // Level number
-        drawText("ROOM $number", { i -> i * cellSize / 2f + 16f }, { 16f })
+        drawText(
+            text = "ROOM ${config.number}",
+            left = { i -> i * cellSize / 2f + 16f },
+            top = { 16f }
+        )
 
     }
 }

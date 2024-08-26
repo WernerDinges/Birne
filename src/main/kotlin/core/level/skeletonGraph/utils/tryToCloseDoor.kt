@@ -2,16 +2,14 @@ package core.level.skeletonGraph.utils
 
 import core.entity.collectable.Collectable
 import core.entity.collectable.Key
-import core.game.Game
-import core.level.Level
-import core.level.skeletonGraph.LevelSkeleton.FINISH_CLOSED
-import core.level.skeletonGraph.LevelSkeleton.FINISH_OPEN
-import core.level.skeletonGraph.LevelSkeleton.LADDER
-import core.level.skeletonGraph.LevelSkeleton.PLATFORM
-import core.level.skeletonGraph.LevelSkeleton.SPIKE
-import core.level.skeletonGraph.LevelSkeleton.START
-import core.level.skeletonGraph.LevelSkeleton.VINE
-import core.level.skeletonGraph.LevelSkeleton.WALL
+import core.level.TileID.FINISH_CLOSED
+import core.level.TileID.FINISH_OPEN
+import core.level.TileID.LADDER
+import core.level.TileID.PLATFORM
+import core.level.TileID.SPIKE
+import core.level.TileID.START
+import core.level.TileID.VINE
+import core.level.TileID.WALL
 import core.level.skeletonGraph.SkeletonEdge
 import kotlin.math.max
 import kotlin.math.min
@@ -34,7 +32,7 @@ fun tryToCloseDoor(
             val l = path.last()
 
             // Vertical
-            if(l.isVertical())
+            //if(l.isVertical())
                 for(y in min(l.start.second, l.end.second)..max(l.start.second, l.end.second))
                     if(primordial[y][l.end.first] !in prohibited) {
                         primordial[finish.second][finish.first] = FINISH_CLOSED

@@ -11,11 +11,16 @@ import Textures.CHAR_7
 import Textures.CHAR_8
 import Textures.CHAR_9
 import Textures.CHAR_A
+import Textures.CHAR_ARROW_LEFT
+import Textures.CHAR_ARROW_RIGHT
 import Textures.CHAR_B
 import Textures.CHAR_BRA
 import Textures.CHAR_C
 import Textures.CHAR_CKET
+import Textures.CHAR_COLON
+import Textures.CHAR_COMMA
 import Textures.CHAR_D
+import Textures.CHAR_DOT
 import Textures.CHAR_E
 import Textures.CHAR_F
 import Textures.CHAR_G
@@ -95,6 +100,11 @@ private fun charToTexture(char: Char) = when(char) {
     'Z' -> CHAR_Z
     '[' -> CHAR_BRA
     ']' -> CHAR_CKET
+    '<' -> CHAR_ARROW_LEFT
+    '>' -> CHAR_ARROW_RIGHT
+    ',' -> CHAR_COMMA
+    '.' -> CHAR_DOT
+    ':' -> CHAR_COLON
     ' ' -> CHAR_SPACE
 
     else -> CHAR_SPACE // default to 0 if character is not recognized

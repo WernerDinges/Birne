@@ -54,7 +54,7 @@ data class Player(
                 translate(
                     left = if(!isMirrored) offsetX + x * cellSize + 1f
                         else screenWidth - (offsetX + x * cellSize + 1f) - cellSize,
-                    top = offsetY + y * cellSize + 1f
+                    top = offsetY + y * cellSize + 1.5f
                 ) {
 
                     draw(Size(cellSize - 1f, cellSize - 1f))

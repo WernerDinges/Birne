@@ -1,6 +1,6 @@
-package core.level.skeletonGraph
+package core.level
 
-object LevelSkeleton {
+object TileID {
 
     const val WALL = 0
     const val AIR = 1

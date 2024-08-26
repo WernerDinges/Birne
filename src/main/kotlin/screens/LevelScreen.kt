@@ -10,31 +10,22 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.input.key.onKeyEvent
-import core.game.Game
-import core.level.Level
 import kotlinx.coroutines.delay
-import utils.initNewGame
+import utils.each
 
 @Composable
-fun LevelScreen(state: Game) {
-    var initializer by remember { mutableStateOf(true) }
-    if(initializer) {
-        initNewGame(state)
-        initializer = false
-    }
-
-    val gameInstance by remember { mutableStateOf(state) }
+fun LevelScreen(state: Birne.State.Play) {
     val requester = remember { FocusRequester() }
 
     var trigger by remember { mutableStateOf(0f) }
 
     Canvas(Modifier
         .fillMaxSize()
-        .onKeyEvent { gameInstance.handleKeyEvent(it) }
+        .onKeyEvent { state.instance.handleKeyEvent(it) }
         .focusRequester(requester)
         .focusable()
     ) {
-        with(gameInstance.state as Level) { translate(left = trigger) {
+        with(state.instance.level!!) { translate(left = trigger) {
 
             drawMap()
 
@@ -47,20 +38,24 @@ fun LevelScreen(state: Game) {
     LaunchedEffect(Unit) {
         requester.requestFocus()
 
-        val millis = Birne.frameDuration
+        val millis = Birne.FRAME_DURATION
         while(true)
-            with(state.state as Level) {
+            with(state.instance.level!!) {
 
                 if(player.hp <= 0)
-                    Birne.state.value = Birne.State.GameOver
+                    Birne.gameOver(
+                        state.instance.dungeon,
+                        state.instance.config.coins,
+                        state.instance.levelNumber
+                    )
 
                 player.apply {
                     updateTicks(millis)
                     gravitate(millis)
                 }
-                notPlayableEntities.forEach {
-                    it.updateTicks(millis)
-                    it.gravitate(millis)
+                config.notPlayableEntities.each {
+                    updateTicks(millis)
+                    gravitate(millis)
                 }
 
                 updateEntities(millis)
