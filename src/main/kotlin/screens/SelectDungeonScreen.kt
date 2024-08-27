@@ -19,7 +19,6 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.input.key.*
-import core.dungeon.Dungeon
 import kotlinx.coroutines.delay
 import utils.drawText
 import utils.sizeOfCell
@@ -31,11 +30,8 @@ fun SelectDungeonScreen() {
     val dungeons by remember { mutableStateOf(Birne.gameData.dungeons) }
     var selectedDungeon by remember { mutableStateOf(0) }
 
-    val title by remember { mutableStateOf("DUNGEONS") }
-    val back by remember { mutableStateOf("[ESC]") }
-    val left by remember { mutableStateOf("[A]") }
-    val right by remember { mutableStateOf("[D]") }
-    val start by remember { mutableStateOf("[SPACE] TO START") }
+    var difficulty: Int? by remember { mutableStateOf(null) }
+    fun check() = if(difficulty!! > 1) dungeons[selectedDungeon]!!.stars[difficulty!!-2] != 0 else true
 
     val (screenSize, resizeScreen) = remember { mutableStateOf(Size.Zero) }
 
@@ -44,10 +40,28 @@ fun SelectDungeonScreen() {
         .onKeyEvent { event ->
             if(event.type == KeyEventType.KeyDown)
                 when(event.key) {
-                    Key.Escape -> menu()
-                    Key.A -> selectedDungeon = (selectedDungeon - 1).coerceAtLeast(0)
-                    Key.D -> selectedDungeon = (selectedDungeon + 1).coerceAtMost(dungeons.lastIndex)
-                    Key.Spacebar -> if(dungeons[selectedDungeon] != null) Birne.startGame(selectedDungeon)
+                    Key.Escape -> if(difficulty == null) menu() else difficulty = null
+                    Key.A -> {
+                        if(difficulty == null)
+                            selectedDungeon = (selectedDungeon - 1).coerceAtLeast(0)
+                        else
+                            difficulty = (difficulty!! - 1).coerceAtLeast(1)
+                    }
+                    Key.D -> {
+                        if(difficulty == null)
+                            selectedDungeon = (selectedDungeon + 1).coerceAtMost(dungeons.lastIndex)
+                        else
+                            difficulty = (difficulty!! + 1).coerceAtMost(6)
+                    }
+                    Key.Spacebar -> {
+                        if(dungeons[selectedDungeon] != null)
+                            if(difficulty != null) {
+                                if(check())
+                                    Birne.startGame(selectedDungeon, difficulty!!)
+                            } else {
+                                difficulty = 1
+                            }
+                    }
                 }
 
             true
@@ -58,7 +72,7 @@ fun SelectDungeonScreen() {
         resizeScreen(size)
         cellSize = screenSize.height/16f
 
-        // Title
+        val title = "DUNGEONS"
         drawText(
             text = title,
             left = { char -> (size.width - title.length*cellSize/2f)/2f + char * cellSize/2f },
@@ -66,39 +80,41 @@ fun SelectDungeonScreen() {
         )
 
         // Arrows
-        if(selectedDungeon > 0)
+        if((selectedDungeon > 0 && difficulty == null) || ((difficulty ?: 0) > 1))
             drawText(
-                text = left,
+                text = "[A]",
                 left = { char -> cellSize/2f + char*cellSize/2f },
                 top = { size.height/2f - cellSize/4f }
             )
-        if(selectedDungeon < dungeons.lastIndex)
+        if((selectedDungeon < dungeons.lastIndex && difficulty == null) || ((difficulty ?: 7) < 6))
             drawText(
-                text = right,
-                left = { char -> size.width - (1f + right.length)*cellSize/2f + char*cellSize/2f },
+                text = "[D]",
+                left = { char -> size.width - 4f*cellSize/2f + char*cellSize/2f },
                 top = { size.height/2f - cellSize/4f }
             )
         // Back
         drawText(
-            text = back,
+            text = "[ESC]",
             left = { char -> (char + 1) * cellSize/2f },
             top = { cellSize/2f }
         )
 
         // Dungeon display
         if(dungeons[selectedDungeon] != null) dungeons[selectedDungeon].also {
-            val hs = "HS: ${it!!.hsRooms} R, ${it.hsCoins} C"
 
             drawText(
-                text = it.title,
+                text = it!!.title,
                 left = { i -> (size.width - it.title.length*cellSize/2f)/2f + i*cellSize/2f },
                 top = { size.height/2f - 1.5f * cellSize }
             )
-            drawText(
-                text = hs,
-                left = { i -> (size.width - hs.length*cellSize/2f)/2f + i*cellSize/2f },
-                top = { size.height/2f - cellSize/4f }
-            )
+            if(difficulty != null) {
+                val hs = "HS: ${it.hsRooms[difficulty!!-1]} R, ${it.hsCoins[difficulty!!-1]} C"
+                drawText(
+                    text = hs,
+                    left = { i -> (size.width - hs.length * cellSize / 2f) / 2f + i * cellSize / 2f },
+                    top = { size.height / 2f + 1.25f*cellSize }
+                )
+            }
 
             it.stars.forEachIndexed { i, star ->
                 with(when(star) {
@@ -111,16 +127,25 @@ fun SelectDungeonScreen() {
                 }) {
                     translate(
                         left = size.width/2f - cellSize * (3 - i),
-                        top = size.height/2f + cellSize
+                        top = size.height/2f - cellSize/2f
                     ) {
                         draw(sizeOfCell())
                     }
                 }
             }
+            val diff = "DIFFICULTY: $difficulty"
+            if(difficulty != null)
+                drawText(
+                    text = diff,
+                    left = { i -> (size.width - diff.length*cellSize/2f) / 2f + i*cellSize/2f },
+                    top = { size.height/2f + 2.75f*cellSize }
+                )
 
+            val hint = if(difficulty == null) "[SPACE] TO SELECT"
+                       else { if(check()) "[SPACE] TO START" else "LOCKED" }
             drawText(
-                text = start,
-                left = { i -> (size.width - start.length*cellSize/2f) / 2f + i*cellSize/2f },
+                text = hint,
+                left = { i -> (size.width - hint.length*cellSize/2f) / 2f + i*cellSize/2f },
                 top = { size.height - cellSize }
             )
 

@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 data class GameData(
     var coins: Int = 0,
     var dungeons: MutableList<Dungeon?> = mutableListOf(
-        Dungeon("COZY CORRIDORS"),
+        Dungeon("1. COZY CORRIDORS"),
         null
     )
 )

@@ -46,7 +46,8 @@ fun LevelScreen(state: Birne.State.Play) {
                     Birne.gameOver(
                         state.instance.dungeon,
                         state.instance.config.coins,
-                        state.instance.levelNumber
+                        state.instance.levelNumber,
+                        state.instance.config.difficulty
                     )
 
                 player.apply {

@@ -17,7 +17,7 @@ import screens.SelectDungeonScreen
 fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,
-        title = "Birne (predev 2)",
+        title = "Birne (predev 3)",
         state = WindowState(width = 598.dp, height = 598.dp, position = WindowPosition(Alignment.Center))
     ) {
         Birne.loadGameData()

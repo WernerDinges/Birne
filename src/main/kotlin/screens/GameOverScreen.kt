@@ -74,11 +74,15 @@ fun GameOverScreen(state: Birne.State.GameOver) {
         Birne.saveGameData {
             coins += state.coins
 
-            if(dungeons[state.dungeon]!!.hsCoins < state.coins)
-                dungeons[state.dungeon]!!.hsCoins = state.coins
+            if(dungeons[state.dungeon]!!.hsCoins[state.difficulty-1] < state.coins)
+                dungeons[state.dungeon]!!.hsCoins[state.difficulty-1] = state.coins
 
-            if(dungeons[state.dungeon]!!.hsRooms < state.rooms)
-                dungeons[state.dungeon]!!.hsRooms = state.rooms
+            if(dungeons[state.dungeon]!!.hsRooms[state.difficulty-1] < state.rooms)
+                dungeons[state.dungeon]!!.hsRooms[state.difficulty-1] = state.rooms
+
+            if(dungeons[state.dungeon]!!.stars[state.difficulty-1] == 0)
+                if(state.rooms >= 100)
+                    dungeons[state.dungeon]!!.stars[state.difficulty-1] = 1
         }
 
         while(true) {

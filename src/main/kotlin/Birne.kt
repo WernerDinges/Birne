@@ -32,15 +32,15 @@ object Birne {
     sealed interface State {
         data object Menu: State
         data object SelectDungeon: State
-        data class GameOver(val dungeon: Int, val coins: Int, val rooms: Int): State
+        data class GameOver(val dungeon: Int, val difficulty: Int, val coins: Int, val rooms: Int): State
         data class Play(val instance: Game): State
     }
 
     // Switch from menu to the game
-    fun startGame(dungeon: Int) {
+    fun startGame(dungeon: Int, difficulty: Int) {
         val game = buildGame {
             this dungeon dungeon
-            this difficulty 1
+            this difficulty difficulty
             this engine RumbleEngine
             this skin PlayerSkin.Classic
         }
@@ -58,8 +58,8 @@ object Birne {
         }
     }
 
-    fun gameOver(dungeon: Int, coins: Int, rooms: Int) {
-        state.value = State.GameOver(dungeon, coins, rooms)
+    fun gameOver(dungeon: Int, coins: Int, rooms: Int, difficulty: Int) {
+        state.value = State.GameOver(dungeon, difficulty, coins, rooms)
     }
 
     fun menu() {
