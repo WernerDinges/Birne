@@ -78,7 +78,7 @@ data class Player(
 
             val dvy = jumpStrength * (millis / 1000f) * 4f
 
-            if (vy + dvy <= jumpStrength)
+            if(vy + dvy <= jumpStrength)
                 vy += dvy
             else
                 vy = jumpStrength

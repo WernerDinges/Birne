@@ -2,7 +2,7 @@ package core.game
 
 import androidx.compose.ui.input.key.KeyEvent
 import core.entity.collectable.Collectable
-import core.entity.enemy.NotPlayable
+import core.entity.notPlayable.NotPlayable
 import core.level.Level
 import core.level.LevelConfig
 import core.level.getLevelSize

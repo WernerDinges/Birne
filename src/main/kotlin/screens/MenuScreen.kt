@@ -22,7 +22,7 @@ fun MenuScreen() {
     val coinsCount by remember { mutableStateOf("COINS: ${Birne.gameData.coins}") }
     val hint by remember { mutableStateOf("[SPACE] OK, [W] UP, [S] DOWN") }
 
-    val options by remember { mutableStateOf(listOf("DUNGEONS", "SHOP", "OPTIONS", "STATS")) }
+    val options by remember { mutableStateOf(listOf("DUNGEONS", "SHOP", "SKINS", "INFO")) }
     var selected by remember { mutableStateOf(0) }
 
     val (screenSize, resizeScreen) = remember { mutableStateOf(Size.Zero) }

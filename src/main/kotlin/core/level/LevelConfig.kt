@@ -1,8 +1,7 @@
 package core.level
 
 import core.entity.collectable.Collectable
-import core.entity.enemy.NotPlayable
-import core.entity.player.Player
+import core.entity.notPlayable.NotPlayable
 
 data class LevelConfig(
     var number: Int,

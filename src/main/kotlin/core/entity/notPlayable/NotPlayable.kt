@@ -1,4 +1,4 @@
-package core.entity.enemy
+package core.entity.notPlayable
 
 import androidx.compose.ui.geometry.Offset
 import core.entity.Entity

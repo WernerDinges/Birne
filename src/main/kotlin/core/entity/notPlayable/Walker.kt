@@ -1,4 +1,4 @@
-package core.entity.enemy
+package core.entity.notPlayable
 
 import Birne.cellSize
 import Textures.WALKER1
@@ -29,7 +29,7 @@ data class Walker(
     override var ticks = 0L
 
     override fun thinkAndAct(millis: Long, skeleton: Array<Array<Int>>, playerPosition: Offset) {
-        val dx =  (millis / 1000f) * speed * if(isMirrored) -1f else 1f
+        val dx = (millis / 1000f) * speed * if(isMirrored) -1f else 1f
         val addHitbox = if(isMirrored) 0f else hitbox.width
         val ix = (x+dx+hitboxOffset.x+addHitbox).toInt()
         val iy = (y+.5f).toInt()

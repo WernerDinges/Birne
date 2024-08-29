@@ -20,7 +20,7 @@ fun GameOverScreen(state: Birne.State.GameOver) {
     val title by remember { mutableStateOf("GAME OVER") }
     val coinsCount by remember { mutableStateOf("COINS: ${state.coins}") }
     val roomsCount by remember { mutableStateOf("ROOMS: ${state.rooms}")}
-    val description by remember { mutableStateOf("[SPACE] MENU") }
+    val description by remember { mutableStateOf("[ESC] MENU") }
 
     val (screenSize, resizeScreen) = remember { mutableStateOf(Size.Zero) }
 
@@ -28,7 +28,7 @@ fun GameOverScreen(state: Birne.State.GameOver) {
         Modifier
         .fillMaxSize()
         .onKeyEvent { event ->
-            if(event.key == Key.Spacebar && event.type == KeyEventType.KeyDown)
+            if(event.key == Key.Escape && event.type == KeyEventType.KeyDown)
                 Birne.menu()
 
             true

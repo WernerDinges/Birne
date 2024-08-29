@@ -18,7 +18,8 @@ fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,
         title = "Birne (predev 3)",
-        state = WindowState(width = 598.dp, height = 598.dp, position = WindowPosition(Alignment.Center))
+        state = WindowState(width = 598.dp, height = 598.dp, position = WindowPosition(Alignment.Center)),
+        alwaysOnTop = true
     ) {
         Birne.loadGameData()
 

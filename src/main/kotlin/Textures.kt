@@ -4,12 +4,14 @@ import androidx.compose.ui.res.useResource
 
 object Textures {
 
+    val STAR_CLOSED = BitmapPainter(useResource("star_closed.png", ::loadImageBitmap))
     val STAR_EMPTY = BitmapPainter(useResource("star_empty.png", ::loadImageBitmap))
     val STAR_1 = BitmapPainter(useResource("star_1.png", ::loadImageBitmap))
     val STAR_2 = BitmapPainter(useResource("star_2.png", ::loadImageBitmap))
     val STAR_3 = BitmapPainter(useResource("star_3.png", ::loadImageBitmap))
     val STAR_4 = BitmapPainter(useResource("star_4.png", ::loadImageBitmap))
     val STAR_5 = BitmapPainter(useResource("star_5.png", ::loadImageBitmap))
+    val SELECT_UP = BitmapPainter(useResource("select_up.png", ::loadImageBitmap))
 
     val HEART = BitmapPainter(useResource("heart.png", ::loadImageBitmap))
     val HEART_EMPTY = BitmapPainter(useResource("heart_empty.png", ::loadImageBitmap))
@@ -23,6 +25,11 @@ object Textures {
 
     val WALKER1 = BitmapPainter(useResource("walker1.png", ::loadImageBitmap))
     val WALKER2 = BitmapPainter(useResource("walker2.png", ::loadImageBitmap))
+
+    val HOPPER = BitmapPainter(useResource("hopper.png", ::loadImageBitmap))
+    val HOPPER_LOAD1 = BitmapPainter(useResource("hopper_load1.png", ::loadImageBitmap))
+    val HOPPER_LOAD2 = BitmapPainter(useResource("hopper_load2.png", ::loadImageBitmap))
+    val HOPPER_JUMP = BitmapPainter(useResource("hopper_jump.png", ::loadImageBitmap))
 
     val DOOR_OPEN = BitmapPainter(useResource("door_open.png", ::loadImageBitmap))
     val DOOR_CLOSED = BitmapPainter(useResource("door_closed.png", ::loadImageBitmap))

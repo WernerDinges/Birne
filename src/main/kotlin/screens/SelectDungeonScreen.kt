@@ -3,11 +3,13 @@ package screens
 import Birne
 import Birne.cellSize
 import Birne.menu
+import Textures.SELECT_UP
 import Textures.STAR_1
 import Textures.STAR_2
 import Textures.STAR_3
 import Textures.STAR_4
 import Textures.STAR_5
+import Textures.STAR_CLOSED
 import Textures.STAR_EMPTY
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.focusable
@@ -31,7 +33,6 @@ fun SelectDungeonScreen() {
     var selectedDungeon by remember { mutableStateOf(0) }
 
     var difficulty: Int? by remember { mutableStateOf(null) }
-    fun check() = if(difficulty!! > 1) dungeons[selectedDungeon]!!.stars[difficulty!!-2] != 0 else true
 
     val (screenSize, resizeScreen) = remember { mutableStateOf(Size.Zero) }
 
@@ -56,7 +57,7 @@ fun SelectDungeonScreen() {
                     Key.Spacebar -> {
                         if(dungeons[selectedDungeon] != null)
                             if(difficulty != null) {
-                                if(check())
+                                if(dungeons[selectedDungeon]!!.stars[difficulty!!-1] != null)
                                     Birne.startGame(selectedDungeon, difficulty!!)
                             } else {
                                 difficulty = 1
@@ -118,6 +119,8 @@ fun SelectDungeonScreen() {
 
             it.stars.forEachIndexed { i, star ->
                 with(when(star) {
+                    null -> STAR_CLOSED
+                    0 -> STAR_EMPTY
                     1 -> STAR_1
                     2 -> STAR_2
                     3 -> STAR_3
@@ -133,16 +136,25 @@ fun SelectDungeonScreen() {
                     }
                 }
             }
-            val diff = "DIFFICULTY: $difficulty"
             if(difficulty != null)
-                drawText(
-                    text = diff,
-                    left = { i -> (size.width - diff.length*cellSize/2f) / 2f + i*cellSize/2f },
-                    top = { size.height/2f + 2.75f*cellSize }
-                )
+                with(SELECT_UP) {
+                    translate(
+                        left = size.width/2f - cellSize * (4 - difficulty!!),
+                        top = size.height/2f + cellSize/2f
+                    ) {
+                        draw(sizeOfCell())
+                    }
+                }
 
-            val hint = if(difficulty == null) "[SPACE] TO SELECT"
-                       else { if(check()) "[SPACE] TO START" else "LOCKED" }
+            val hint =
+                if(difficulty == null)
+                    "[SPACE] TO SELECT"
+                else {
+                    if(dungeons[selectedDungeon]!!.stars[difficulty!!-1] != null)
+                        "[SPACE] TO START"
+                    else
+                        "LOCKED"
+                }
             drawText(
                 text = hint,
                 left = { i -> (size.width - hint.length*cellSize/2f) / 2f + i*cellSize/2f },
