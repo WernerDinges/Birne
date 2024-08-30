@@ -8,6 +8,8 @@ import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import core.entity.Entity
 import core.game.Game
+import core.level.Level
+import core.level.LevelConfig
 
 data class Player(
     override var x: Float,
@@ -84,6 +86,12 @@ data class Player(
                 vy = jumpStrength
 
         }
+    }
+
+    fun hurt(config: LevelConfig) {
+        hp--
+        x = config.startPoint.first.toFloat()
+        y = config.startPoint.second.toFloat() - 0.01f
     }
 
 }

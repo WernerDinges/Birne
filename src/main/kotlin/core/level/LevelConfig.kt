@@ -18,5 +18,8 @@ data class LevelConfig(
     fun exclude(collectable: Collectable) {
         collectables = collectables.filterNot { it == collectable }
     }
+    fun exclude(entity: NotPlayable) {
+        notPlayableEntities = notPlayableEntities.filterNot { it == entity }
+    }
 
 }

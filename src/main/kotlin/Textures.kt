@@ -31,6 +31,9 @@ object Textures {
     val HOPPER_LOAD2 = BitmapPainter(useResource("hopper_load2.png", ::loadImageBitmap))
     val HOPPER_JUMP = BitmapPainter(useResource("hopper_jump.png", ::loadImageBitmap))
 
+    val WITCH = BitmapPainter(useResource("witch.png", ::loadImageBitmap))
+    val WITCH_BOTTLE = BitmapPainter(useResource("witch_bottle.png", ::loadImageBitmap))
+
     val DOOR_OPEN = BitmapPainter(useResource("door_open.png", ::loadImageBitmap))
     val DOOR_CLOSED = BitmapPainter(useResource("door_closed.png", ::loadImageBitmap))
     val KEY = BitmapPainter(useResource("key.png", ::loadImageBitmap))

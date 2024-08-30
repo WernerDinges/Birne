@@ -136,16 +136,14 @@ class Level(
         }
 
         // Player hits an enemy
-        for(npc in config.notPlayableEntities) {
+        for(npc in config.notPlayableEntities.filter { it.collision }) {
             val leftInX = bottomLeftX in (npc.x + npc.hitboxOffset.x)..(npc.x + npc.hitboxOffset.x + npc.hitbox.width)
             val leftInY = bottomLeftY in (npc.y + npc.hitboxOffset.y)..(npc.y + npc.hitboxOffset.y + npc.hitbox.height)
             val rightInX = bottomRightX in (npc.x + npc.hitboxOffset.x)..(npc.x + npc.hitboxOffset.x + npc.hitbox.width)
             val rightInY = bottomRightY in (npc.y + npc.hitboxOffset.y)..(npc.y + npc.hitboxOffset.y + npc.hitbox.height)
 
             if((leftInX && leftInY) || (rightInX && rightInY)) {
-                player.hp--
-                player.x = config.startPoint.first.toFloat()
-                player.y = config.startPoint.second.toFloat() - 0.01f
+                player.hurt(config)
             }
         }
 
@@ -169,7 +167,7 @@ class Level(
 
     private fun updateNPCs(millis: Long) {
         for(npc in config.notPlayableEntities)
-            npc.thinkAndAct(millis, config.tileSkeleton, Offset(player.x, player.y))
+            npc.thinkAndAct(millis, config.tileSkeleton, config, player)
     }
 
     fun DrawScope.drawMap() {

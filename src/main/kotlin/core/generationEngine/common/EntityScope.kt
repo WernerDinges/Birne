@@ -6,5 +6,10 @@ import core.level.LevelConfig
 class EntityScope(
     val level: LevelConfig,
     val game: GameConfig,
-    val longestPath: LimbPath
-)
+    longestPath: LimbPath
+) {
+    val dangerLimbs = longestPath.limbs
+        .filter { !it.isVertical && it.canContainDangers }
+        .associateWith { true }
+        .toMutableMap()
+}

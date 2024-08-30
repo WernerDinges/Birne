@@ -4,8 +4,8 @@ import core.generationEngine.common.EntityScope
 import kotlin.math.pow
 import kotlin.random.Random
 
-fun EntityScope.hoppers() {
-    if(level.difficulty >= 2) {
+fun EntityScope.witches() {
+    if(level.difficulty >= 3) {
 
         val a = 0.25f * (1 + (level.difficulty - 1) / 6f)
         var weights = List(dangerLimbs.size) { i -> (100 * (a.pow(i))).toInt() }.shuffled()
@@ -13,7 +13,7 @@ fun EntityScope.hoppers() {
         for(limb in dangerLimbs.filter { it.value }.keys) {
             val spawn = Random.nextInt(100) < (weights.lastOrNull() ?: 0)
             if(spawn) {
-                level.notPlayableEntities += spawnHopper(level, limb)
+                level.notPlayableEntities += spawnWitch(level, limb)
                 dangerLimbs[limb] = false
             }
 

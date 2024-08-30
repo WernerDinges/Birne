@@ -17,6 +17,7 @@ object RumbleEngine: GenerationEngine {
         entities {
             walkers()
             hoppers()
+            witches()
         }
 
         platforms()

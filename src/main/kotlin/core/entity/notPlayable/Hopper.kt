@@ -10,6 +10,8 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
+import core.entity.player.Player
+import core.level.LevelConfig
 import core.level.TileID.WALL
 import kotlin.math.pow
 
@@ -21,6 +23,8 @@ data class Hopper(
 ): NotPlayable {
 
     override val name = "Hopper"
+
+    override val collision = true
 
     var waitTime = 500L
 
@@ -43,17 +47,17 @@ data class Hopper(
         data object Jump : State
     }
 
-    override fun thinkAndAct(millis: Long, skeleton: Array<Array<Int>>, playerPosition: Offset) {
+    override fun thinkAndAct(millis: Long, skeleton: Array<Array<Int>>, level: LevelConfig, player: Player) {
         if(state != State.Jump) {
-            val aware = ((playerPosition.x - (x+.5f)) / (3f * vision)).pow(2) + ((playerPosition.y - (y+.5f)) / vision).pow(2) <= 1f
+            val aware = ((player.x - (x+.5f)) / (3f * vision)).pow(2) + ((player.y - (y+.5f)) / vision).pow(2) <= 1f
             if(aware)
                 state = State.Load
         }
         if(ticks >= 2f*waitTime) {
             state = State.Jump
             vy = -jumpStrength
-            vx = (speed) * if(playerPosition.x > x) 1f else -1f
-            isMirrored = !(playerPosition.x > x)
+            vx = (speed) * if(player.x > x) 1f else -1f
+            isMirrored = !(player.x > x)
         }
         if(state == State.Jump) {
             val dx = (millis / 1000f) * vx
