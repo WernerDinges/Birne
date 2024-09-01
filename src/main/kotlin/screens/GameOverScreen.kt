@@ -17,10 +17,6 @@ import utils.drawText
 @Composable
 fun GameOverScreen(state: Birne.State.GameOver) {
     val requester = remember { FocusRequester() }
-    val title by remember { mutableStateOf("GAME OVER") }
-    val coinsCount by remember { mutableStateOf("COINS: ${state.coins}") }
-    val roomsCount by remember { mutableStateOf("ROOMS: ${state.rooms}")}
-    val description by remember { mutableStateOf("[ESC] MENU") }
 
     val (screenSize, resizeScreen) = remember { mutableStateOf(Size.Zero) }
 
@@ -39,27 +35,28 @@ fun GameOverScreen(state: Birne.State.GameOver) {
         resizeScreen(size)
         cellSize = screenSize.height/16f
 
-        // Game Over title
+        val title = "GAME OVER"
         drawText(
             text = title,
             left = { i: Int -> (size.width - title.length*cellSize/2f)/2f + i*cellSize/2f },
             top = { size.height/2f - 1.5f * cellSize }
         )
 
-        // Rooms
+        val roomsCount = "ROOMS: ${state.rooms}"
         drawText(
             text = roomsCount,
             left = { i: Int -> (size.width - roomsCount.length*cellSize/2f)/2f + i*cellSize/2f },
             top = { size.height/2f + cellSize }
         )
 
-        // Coins
+        val coinsCount = "COINS: ${state.coins}"
         drawText(
             text = coinsCount,
             left = { i: Int -> (size.width - coinsCount.length*cellSize/2f)/2f + i*cellSize/2f },
             top = { size.height/2f + 1.75f * cellSize }
         )
 
+        val description = "[ESC] MENU"
         drawText(
             text = description,
             left = { i: Int -> (size.width - description.length*cellSize/2f)/2f + i*cellSize/2f },

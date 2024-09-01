@@ -230,7 +230,7 @@ class Level(
         drawText(
             text = "${coins()}",
             left = { i -> size.width - cellSize/2f * ("${coins()}".length + 1) + i * cellSize/2f },
-            top = { 16f }
+            top = { cellSize/2f }
         )
 
         // Level number

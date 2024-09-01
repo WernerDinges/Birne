@@ -24,25 +24,45 @@ object Birne {
     // Global app state
     var state: MutableState<State> = mutableStateOf(State.Menu)
     sealed interface State {
-        data object Menu: State
-        data object SelectDungeon: State
+        data object Menu : State
+        data object Dungeons : State
+        data object Skins : State
+        data object Shop : State
+        data class BuySkin(val price: Int, val skinsToPickFrom: List<PlayerSkin>): State
+        data class BuyLevel(val price: Int, val dungeon: Int, val level: Int): State
         data class GameOver(val dungeon: Int, val difficulty: Int, val coins: Int, val rooms: Int): State
         data class Play(val instance: Game): State
     }
 
     // Switch from menu to the game
-    fun startGame(dungeon: Int, difficulty: Int) {
+    fun startGame(dng: Int, dff: Int) {
         val game = buildGame {
-            this dungeon dungeon
-            this difficulty difficulty
+            this dungeon dng
+            this difficulty dff
             this engine RumbleEngine
-            this skin PlayerSkin.Classic
+            this skin gameData.selectedSkin
         }
         state.value = State.Play(game)
     }
 
+    fun buySkin(price: Int, skinsToPickFrom: List<PlayerSkin>) {
+        state.value = State.BuySkin(price, skinsToPickFrom)
+    }
+
+    fun buyLevel(price: Int, dungeon: Int, level: Int) {
+        state.value = State.BuyLevel(price, dungeon, level)
+    }
+
     fun dungeons() {
-        state.value = State.SelectDungeon
+        state.value = State.Dungeons
+    }
+
+    fun shop() {
+        state.value = State.Shop
+    }
+
+    fun skins() {
+        state.value = State.Skins
     }
 
     fun nextLevel() {

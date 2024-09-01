@@ -9,10 +9,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
-import screens.GameOverScreen
-import screens.LevelScreen
-import screens.MenuScreen
-import screens.SelectDungeonScreen
+import screens.*
 
 fun main() = application {
     Window(
@@ -31,8 +28,12 @@ fun main() = application {
             when(state) {
                 is Birne.State.GameOver -> GameOverScreen(state as Birne.State.GameOver)
                 Birne.State.Menu -> MenuScreen()
-                Birne.State.SelectDungeon -> SelectDungeonScreen()
+                Birne.State.Skins -> SkinsScreen()
+                Birne.State.Shop -> ShopScreen()
+                Birne.State.Dungeons -> SelectDungeonScreen()
                 is Birne.State.Play -> LevelScreen(state as Birne.State.Play)
+                is Birne.State.BuyLevel -> BuyLevelScreen((state as Birne.State.BuyLevel).price, (state as Birne.State.BuyLevel).dungeon, (state as Birne.State.BuyLevel).level)
+                is Birne.State.BuySkin -> BuySkinScreen((state as Birne.State.BuySkin).price, (state as Birne.State.BuySkin).skinsToPickFrom)
             }
         }
     }

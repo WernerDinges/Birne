@@ -2,7 +2,6 @@ package screens
 
 import Birne
 import Birne.cellSize
-import Birne.menu
 import Textures.SELECT_UP
 import Textures.STAR_1
 import Textures.STAR_2
@@ -41,7 +40,7 @@ fun SelectDungeonScreen() {
         .onKeyEvent { event ->
             if(event.type == KeyEventType.KeyDown)
                 when(event.key) {
-                    Key.Escape -> if(difficulty == null) menu() else difficulty = null
+                    Key.Escape -> if(difficulty == null) Birne.menu() else difficulty = null
                     Key.A -> {
                         if(difficulty == null)
                             selectedDungeon = (selectedDungeon - 1).coerceAtLeast(0)

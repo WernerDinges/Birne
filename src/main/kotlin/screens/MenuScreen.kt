@@ -38,6 +38,9 @@ fun MenuScreen() {
 
                         when(selected) {
                             0 -> Birne.dungeons()
+                            1 -> Birne.shop()
+                            2 -> Birne.skins()
+                            //3 ->
                         }
 
                     }
