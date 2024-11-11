@@ -4,6 +4,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.BitmapPainter
+import androidx.compose.ui.res.loadImageBitmap
+import androidx.compose.ui.res.useResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
@@ -16,7 +19,8 @@ fun main() = application {
         onCloseRequest = ::exitApplication,
         title = "Birne (${Birne.VERSION})",
         state = WindowState(width = 598.dp, height = 598.dp, position = WindowPosition(Alignment.Center)),
-        alwaysOnTop = true
+        alwaysOnTop = true,
+        icon = BitmapPainter(useResource("icon.png", ::loadImageBitmap))
     ) {
 
         // Update of game data

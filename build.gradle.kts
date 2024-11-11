@@ -38,5 +38,6 @@ compose.desktop {
             packageName = "Birne"
             packageVersion = "1.0.0"
         }
+
     }
 }
