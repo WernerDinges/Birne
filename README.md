@@ -34,7 +34,7 @@ of the screen while you are watching a boring lecture on linear algebra.
 - *A* and *D* - walk left and right with the little pear legs
 - *W* and *S* - climb ladders and vines
 - *Space* - jump
-- *Space* x2 - double jump (has reload)
+- *Space* x2 - double jump (it takes a couple seconds to reload)
 - *R* - Lose a life and respawn
 
 ## Procedural Generation
