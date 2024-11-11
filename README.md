@@ -31,11 +31,11 @@ Unzip the package and launch EXE to play.
 
 Control in the game is simple: the mouse is not involved, the game can be opened in a small window in the corner
 of the screen while you are watching a boring lecture on linear algebra.
-*A* and *D* - walk left and right with the little pear legs
-*W* and *S* - climb ladders and vines
-*Space* - jump
-*Space* x2 - double jump (has reload)
-*R* - Lose a life and respawn
+- *A* and *D* - walk left and right with the little pear legs
+- *W* and *S* - climb ladders and vines
+- *Space* - jump
+- *Space* x2 - double jump (has reload)
+- *R* - Lose a life and respawn
 
 ## Procedural Generation
 
