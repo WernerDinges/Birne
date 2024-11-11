@@ -14,6 +14,26 @@ import androidx.compose.ui.input.key.*
 import kotlinx.coroutines.delay
 import utils.drawText
 
+/**
+ * Displays the main menu screen of the game.
+ *
+ * This composable screen includes the game title, the current number of coins the player has,
+ * navigation options for "DUNGEONS", "SHOP", "SKINS", and "INFO", and a hint for controlling
+ * the menu navigation.
+ *
+ * Key interactions:
+ * - Use `W` to move up in the menu.
+ * - Use `S` to move down in the menu.
+ * - Use `Spacebar` to select an option.
+ *
+ * When an option is selected based on the value of `selected`:
+ * - If the selected option is "DUNGEONS", it navigates to the dungeon selection screen.
+ * - If the selected option is "SHOP", it navigates to the shop screen.
+ * - If the selected option is "SKINS", it navigates to the skins selection screen.
+ *
+ * The screen continuously updates the `cellSize` based on the screen's height
+ * and requests focus to handle key events.
+ */
 @Composable
 fun MenuScreen() {
     val requester = remember { FocusRequester() }

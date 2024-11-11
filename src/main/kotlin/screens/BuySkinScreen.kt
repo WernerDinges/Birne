@@ -16,6 +16,14 @@ import kotlinx.coroutines.delay
 import utils.drawText
 import utils.sizeOfCell
 
+/**
+ * Composable function that displays the screen for buying a new player skin.
+ * The screen displays the new skin along with its name and provides a prompt to exit.
+ * The player's game data is updated to reflect the purchase.
+ *
+ * @param price  The cost of the skin that the player is purchasing.
+ * @param skinsToPickFrom  A list of available player skins to choose from.
+ */
 @Composable
 fun BuySkinScreen(price: Int, skinsToPickFrom: List<PlayerSkin>) {
     val requester = remember { FocusRequester() }

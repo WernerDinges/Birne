@@ -54,6 +54,31 @@ object Textures {
     val PLAYER_FRANKIE_MOVE2 = BitmapPainter(useResource("player/player_frankie_move2.png", ::loadImageBitmap))
     val PLAYER_FRANKIE_JUMP = BitmapPainter(useResource("player/player_frankie_jump.png", ::loadImageBitmap))
 
+    val PLAYER_PIRATE_IDLE = BitmapPainter(useResource("player/player_pirate_idle.png", ::loadImageBitmap))
+    val PLAYER_PIRATE_MOVE1 = BitmapPainter(useResource("player/player_pirate_move1.png", ::loadImageBitmap))
+    val PLAYER_PIRATE_MOVE2 = BitmapPainter(useResource("player/player_pirate_move2.png", ::loadImageBitmap))
+    val PLAYER_PIRATE_JUMP = BitmapPainter(useResource("player/player_pirate_jump.png", ::loadImageBitmap))
+
+    val PLAYER_SHOES_IDLE = BitmapPainter(useResource("player/player_shoes_idle.png", ::loadImageBitmap))
+    val PLAYER_SHOES_MOVE1 = BitmapPainter(useResource("player/player_shoes_move1.png", ::loadImageBitmap))
+    val PLAYER_SHOES_MOVE2 = BitmapPainter(useResource("player/player_shoes_move2.png", ::loadImageBitmap))
+    val PLAYER_SHOES_JUMP = BitmapPainter(useResource("player/player_shoes_jump.png", ::loadImageBitmap))
+
+    val PLAYER_GLASSES_IDLE = BitmapPainter(useResource("player/player_glasses_idle.png", ::loadImageBitmap))
+    val PLAYER_GLASSES_MOVE1 = BitmapPainter(useResource("player/player_glasses_move1.png", ::loadImageBitmap))
+    val PLAYER_GLASSES_MOVE2 = BitmapPainter(useResource("player/player_glasses_move2.png", ::loadImageBitmap))
+    val PLAYER_GLASSES_JUMP = BitmapPainter(useResource("player/player_glasses_jump.png", ::loadImageBitmap))
+
+    val PLAYER_GOLDEN_IDLE = BitmapPainter(useResource("player/player_golden_idle.png", ::loadImageBitmap))
+    val PLAYER_GOLDEN_MOVE1 = BitmapPainter(useResource("player/player_golden_move1.png", ::loadImageBitmap))
+    val PLAYER_GOLDEN_MOVE2 = BitmapPainter(useResource("player/player_golden_move2.png", ::loadImageBitmap))
+    val PLAYER_GOLDEN_JUMP = BitmapPainter(useResource("player/player_golden_jump.png", ::loadImageBitmap))
+
+    val PLAYER_WILDEYE_IDLE = BitmapPainter(useResource("player/player_wildeye_idle.png", ::loadImageBitmap))
+    val PLAYER_WILDEYE_MOVE1 = BitmapPainter(useResource("player/player_wildeye_move1.png", ::loadImageBitmap))
+    val PLAYER_WILDEYE_MOVE2 = BitmapPainter(useResource("player/player_wildeye_move2.png", ::loadImageBitmap))
+    val PLAYER_WILDEYE_JUMP = BitmapPainter(useResource("player/player_wildeye_jump.png", ::loadImageBitmap))
+
     val WALKER1 = BitmapPainter(useResource("enemies/walker1.png", ::loadImageBitmap))
     val WALKER2 = BitmapPainter(useResource("enemies/walker2.png", ::loadImageBitmap))
 

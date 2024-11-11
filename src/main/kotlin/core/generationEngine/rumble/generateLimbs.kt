@@ -7,6 +7,14 @@ import core.level.TileID.AIR
 import core.level.TileID.WALL
 import kotlin.random.Random
 
+/**
+ * Generates and populates limbs for the current level configuration within the engine scope.
+ * This method slices the level map into horizontal and vertical segments,
+ * then creates and connects limbs both horizontally and vertically based on randomized conditions.
+ * The limbs are stored in a `Limbs` object, which includes a list of all limbs and their connections.
+ *
+ * @return A `Limbs` object containing the generated limbs and their connections for the level.
+ */
 fun EngineScope.generateLimbs(): Limbs {
     val hors = sliceLevelMap(level.mapSize.first, 1)
     val vers = sliceLevelMap(level.mapSize.second, 2)

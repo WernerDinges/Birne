@@ -24,6 +24,29 @@ import kotlinx.coroutines.delay
 import utils.drawText
 import utils.sizeOfCell
 
+/**
+ * Displays the Skin Selection Screen for the game.
+ * Users can navigate through the available skins using the W, A, S, D keys, and select a skin using the Spacebar.
+ * The skin selection screen displays a grid of available skins and allows the user to choose one.
+ * The Escape key can be used to return to the main menu.
+ *
+ * Controls:
+ * - W: Move up in the skin grid
+ * - A: Move left in the skin grid
+ * - S: Move down in the skin grid
+ * - D: Move right in the skin grid
+ * - Spacebar: Select the highlighted skin
+ * - Escape: Return to main menu
+ *
+ * The screen features:
+ * - A title "SKINS"
+ * - A back button labeled "[ESC]"
+ * - The available skins in a grid layout
+ * - Hints and status messages for the currently selected skin
+ *
+ * The skin selection screen uses a focus requester to capture keyboard events and interact with the user.
+ * The screen is redrawn to reflect the position of the selected skin and provide appropriate hints and status messages.
+ */
 @Composable
 fun SkinsScreen() {
     val requester = remember { FocusRequester() }

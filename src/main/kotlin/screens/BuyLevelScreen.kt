@@ -19,6 +19,13 @@ import kotlinx.coroutines.delay
 import utils.drawText
 import utils.sizeOfCell
 
+/**
+ * Displays the screen where the user can purchase a new game level.
+ *
+ * @param price The cost of the new level that the user is purchasing.
+ * @param dungeon The identifier of the dungeon where the new level is located.
+ * @param difficulty The specific difficulty level of the new level being purchased.
+ */
 @Composable
 fun BuyLevelScreen(price: Int, dungeon: Int, difficulty: Int) {
     val requester = remember { FocusRequester() }

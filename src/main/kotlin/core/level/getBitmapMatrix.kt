@@ -49,6 +49,13 @@ import core.level.TileID.RIGHT_WOOD
 import core.level.TileID.SPIKE
 import core.level.TileID.VINE
 
+/**
+ * Converts a 2D array of integers representing a map skeleton into a 2D array of BitmapPainter objects.
+ * Each integer in the skeleton array corresponds to a specific type of texture or object in the game.
+ *
+ * @param skeleton a 2D array of integers representing the map skeleton
+ * @return a 2D array of BitmapPainter objects corresponding to the input skeleton
+ */
 fun getBitmapMatrix(
     skeleton: Array<Array<Int>>
 ): Array<Array<BitmapPainter?>> {

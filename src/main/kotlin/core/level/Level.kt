@@ -25,13 +25,43 @@ import utils.sizeOfCell
 import kotlin.math.ceil
 import kotlin.math.floor
 
+/**
+ * Represents a level in the game containing configuration and various game entities.
+ *
+ * @property config The configuration details specific to this level.
+ * @property player The main player entity of the level.
+ * @property coins A lazy property that yields the number of coins in the game configuration.
+ * @property backgroundTiles A 2D array that stores the background tile images.
+ */
 class Level(
     val config: LevelConfig,
     gameConfig: GameConfig,
     playerInput: PlayerInput
 ) {
+    /**
+     * Represents the player character in the game level.
+     *
+     * The player can move, jump, and interact with the game environment.
+     * Player state is managed by updating its position, velocity, and other attributes.
+     *
+     * See [Player] for detailed attributes and behavior of the player character.
+     */
     val player: Player
+    /**
+     * A lambda function that retrieves the current number of coins available to the player
+     * in the game from the [gameConfig].
+     *
+     * @return The number of coins available to the player.
+     */
     val coins = { gameConfig.coins }
+    /**
+     * A two-dimensional array representing the background tiles of the game level.
+     * Each element in the array is a nullable `BitmapPainter` object, which can be used
+     * to draw background images in the game.
+     *
+     * This array is utilized in the `drawMap()` function within the `DrawScope` to render
+     * the game environment based on the configured tiles.
+     */
     val backgroundTiles: Array<Array<BitmapPainter?>>
 
     init {
@@ -46,11 +76,23 @@ class Level(
         )
     }
 
+    /**
+     * Updates the entities in the current level, including the player and NPCs.
+     *
+     * @param millis The elapsed time in milliseconds since the last update.
+     */
     fun updateEntities(millis: Long) {
         updatePlayer(millis)
         updateNPCs(millis)
     }
 
+    /**
+     * Updates the player's position and state based on the elapsed time, accounting for collisions
+     * with the game's environment such as walls, ladders, spikes, enemies, and collectables,
+     * as well as transitioning to the next level when reaching a finish tile.
+     *
+     * @param millis The elapsed time in milliseconds since the last update.
+     */
     private fun updatePlayer(millis: Long) {
         val gap = player.hitboxOffset
         val hitbox = player.hitbox
@@ -165,11 +207,24 @@ class Level(
 
     }
 
+    /**
+     * Updates the state of all non-playable characters (NPCs) based on the elapsed time.
+     *
+     * @param millis The time in milliseconds since the last update cycle.
+     */
     private fun updateNPCs(millis: Long) {
         for(npc in config.notPlayableEntities)
             npc.thinkAndAct(millis, config.tileSkeleton, config, player)
     }
 
+    /**
+     * Draws the entire game map on the screen.
+     *
+     * This function handles the rendering of background tiles, non-playable entities,
+     * collectable items, and the player character. It calculates the appropriate
+     * scaling and translation based on the map size and offsets to center the map
+     * on the screen.
+     */
     fun DrawScope.drawMap() {
         val (w, h) = size.width to size.height
         cellSize = h/(config.mapSize.second+1)
@@ -203,6 +258,19 @@ class Level(
         }
     }
 
+    /**
+     * Draws the UI elements for the game level, including the player's health points, double-jump cooldown,
+     * the number of coins collected, and the level number.
+     *
+     * The method renders the following UI components:
+     * - Player's health points as hearts, displaying filled or empty hearts based on the player's current health.
+     * - Double-jump cooldown as icons, showing the remaining cooldown time in seconds.
+     * - The number of coins collected by the player.
+     * - The current level or room number.
+     *
+     * This method should be called within a drawing scope to ensure the UI elements are rendered correctly
+     * on the game screen.
+     */
     fun DrawScope.drawUI() {
         // Health points
         for(i in 1..player.maxHp)

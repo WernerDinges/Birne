@@ -6,6 +6,22 @@ import core.level.TileID.SPIKE
 import core.level.TileID.WALL
 import kotlin.random.Random
 
+/**
+ * Distributes treasures throughout the game level based on the given conditions.
+ *
+ * This function processes the limbs of the current level to identify potential spots
+ * for placing collectables such as coins or containers. The placement is determined
+ * randomly, taking into account various in-game elements like walls, spikes, and the
+ * longest path. When a valid spot is found, a coin is created and added to the level's
+ * collectables.
+ *
+ * The randomness in treasure placement is controlled by predefined chances:
+ * - `coinChance`: The base chance to place a coin.
+ * - `containerChance`: The base chance to place a container.
+ *
+ * @receiver The scope within which collectable items are to be defined. Contains references to
+ * the current level configuration, game configuration, the longest path, and the list of limbs.
+ */
 fun CollectableScope.treasures() {
     val notMainLimbs = limbs.list.filter { edge -> edge !in longestPath.limbs && !edge.isVertical }
     val coinChance = 20

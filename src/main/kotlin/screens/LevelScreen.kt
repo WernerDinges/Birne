@@ -13,6 +13,14 @@ import androidx.compose.ui.input.key.onKeyEvent
 import kotlinx.coroutines.delay
 import utils.each
 
+/**
+ * Displays the level screen where the player actively interacts with the game.
+ * This function handles rendering the game level map, UI elements, and manages the
+ * game state updates such as gravity, entity ticks, and the player's health and cooldowns.
+ *
+ * @param state The current state of the game, encapsulated in a `Birne.State.Play` object,
+ *              which includes the game instance and all relevant data for the active level.
+ */
 @Composable
 fun LevelScreen(state: Birne.State.Play) {
     val requester = remember { FocusRequester() }

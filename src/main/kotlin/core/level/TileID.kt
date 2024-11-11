@@ -1,5 +1,9 @@
 package core.level
 
+/**
+ * The `TileID` object contains constant values used to represent different types of tiles
+ * in a tile-based game. Each constant corresponds to a unique identifier for a specific type of tile.
+ */
 object TileID {
 
     const val WALL = 0

@@ -24,6 +24,22 @@ import kotlinx.coroutines.delay
 import utils.drawText
 import utils.sizeOfCell
 
+/**
+ * Displays the dungeon selection screen where the user can choose a dungeon and its difficulty.
+ *
+ * This composable function handles user input using keyboard events to navigate through dungeons
+ * and difficulty levels. The user can press the following keys:
+ * - `A`: Moves to the previous dungeon or decreases the difficulty level.
+ * - `D`: Moves to the next dungeon or increases the difficulty level.
+ * - `ESC`: Navigates back to the menu if no difficulty is selected, otherwise deselects the difficulty.
+ * - `SPACE`: Selects a difficulty level or starts the game if a valid dungeon and difficulty are chosen.
+ *
+ * The screen layout consists of the title "DUNGEONS", dungeon details, difficulty options, and
+ * navigation hints. It visually denotes locked dungeons and highlights high scores for selected
+ * difficulties.
+ *
+ * The screen auto-focuses on load and continuously updates the screen size.
+ */
 @Composable
 fun SelectDungeonScreen() {
     val requester = remember { FocusRequester() }

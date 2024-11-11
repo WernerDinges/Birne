@@ -14,6 +14,14 @@ import androidx.compose.ui.input.key.*
 import kotlinx.coroutines.delay
 import utils.drawText
 
+/**
+ * Displays the game over screen with the player's final performance metrics.
+ * It provides information such as the number of coins collected and rooms explored.
+ * The screen also includes a message to return to the menu, triggered by pressing the ESC key.
+ *
+ * @param state The current game over state containing the dungeon level, difficulty,
+ *              coins collected, and rooms explored by the player.
+ */
 @Composable
 fun GameOverScreen(state: Birne.State.GameOver) {
     val requester = remember { FocusRequester() }
@@ -22,15 +30,15 @@ fun GameOverScreen(state: Birne.State.GameOver) {
 
     Canvas(
         Modifier
-        .fillMaxSize()
-        .onKeyEvent { event ->
-            if(event.key == Key.Escape && event.type == KeyEventType.KeyDown)
-                Birne.menu()
+            .fillMaxSize()
+            .onKeyEvent { event ->
+                if(event.key == Key.Escape && event.type == KeyEventType.KeyDown)
+                    Birne.menu()
 
-            true
-        }
-        .focusRequester(requester)
-        .focusable()
+                true
+            }
+            .focusRequester(requester)
+            .focusable()
     ) {
         resizeScreen(size)
         cellSize = screenSize.height/16f
@@ -65,6 +73,7 @@ fun GameOverScreen(state: Birne.State.GameOver) {
 
     }
 
+    // Launched once
     LaunchedEffect(Unit) {
         requester.requestFocus()
 

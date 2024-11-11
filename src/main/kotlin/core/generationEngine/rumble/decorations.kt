@@ -15,6 +15,12 @@ import core.level.TileID.RIGHT_WOOD
 import core.level.TileID.WALL
 import kotlin.random.Random
 
+/**
+ * Randomly applies decorative elements to certain positions on the level's tile skeleton.
+ * This method goes through a collection of hollow tiles in the level and, based on random
+ * chance and surrounding tiles, it decorates the tile with moss, wood, or lamps in left
+ * corners, right corners, or ceilings.
+ */
 fun EngineScope.decorations() {
 
     for((x, y) in decoratables.hollow) if(Random.nextBoolean() && level.tileSkeleton[y][x] == AIR)

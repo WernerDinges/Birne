@@ -14,11 +14,29 @@ import core.generationEngine.GenerationEngine
 import core.generationEngine.rumble.RumbleEngine
 import core.level.TileID.PLATFORM
 
+/**
+ * The `GameBuilder` class is responsible for configuring and constructing instances of the `Game` class.
+ * It provides methods for setting various attributes that affect the game's configuration,
+ * such as dungeon level, difficulty, engine, and player skin.
+ */
 class GameBuilder {
 
     private var dungeon = 0
+
     private var globalDifficulty = 1
+    /**
+     * Represents the engine used for generating the game levels and configurations.
+     *
+     * Used in conjunction with the `GenerationEngine` interface to dictate how the game
+     * levels are created and managed. By default, `RumbleEngine` is assigned to this variable,
+     * but it can be changed using the appropriate methods in the `GameBuilder` class.
+     */
     private var engine: GenerationEngine = RumbleEngine
+    /**
+     * Holds the player's input configurations including the selected skin.
+     *
+     * Initialized with the Classic player skin.
+     */
     private var playerInput = PlayerInput(PlayerSkin.Classic)
 
     private var game = Game(blankGameConfig(dungeon, globalDifficulty, playerInput, engine))
@@ -26,16 +44,28 @@ class GameBuilder {
     infix fun dungeon(n: Int) {
         dungeon = n
     }
+
     infix fun difficulty(n: Int) {
         globalDifficulty = n
     }
+
     infix fun engine(value: GenerationEngine) {
         engine = value
     }
+
     infix fun skin(value: PlayerSkin) {
         playerInput.skin = value
     }
 
+    /**
+     * Builds and initializes a new `Game` instance with the current configuration.
+     *
+     * The `Game` is configured based on the current dungeon, global difficulty, player input, and engine.
+     * It sets up the player's initial level, speed settings, and key event handlers for controlling the player
+     * within the game environment.
+     *
+     * @return The newly created and configured `Game` instance.
+     */
     fun build(): Game {
         game = Game(blankGameConfig(dungeon, globalDifficulty, playerInput, engine))
             .apply { level = newLevel() }
@@ -158,6 +188,16 @@ class GameBuilder {
         return game
     }
 
+    /**
+     * Creates a new instance of [GameConfig] with the specified parameters,
+     * initializing the coin count to zero.
+     *
+     * @param dungeon The dungeon level for the game.
+     * @param difficulty The difficulty level of the game.
+     * @param playerInput The player input configuration.
+     * @param engine The generation engine to be used.
+     * @return A new instance of [GameConfig] initialized with the provided parameters.
+     */
     private fun blankGameConfig(
         dungeon: Int,
         difficulty: Int, playerInput: PlayerInput,

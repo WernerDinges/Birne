@@ -47,6 +47,14 @@ import Textures.CHAR_Z
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.translate
 
+/**
+ * Draws the given text string on a given draw scope.
+ * Each character will be drawn at a specified position determined by the left and top lambdas.
+ *
+ * @param text The string of text to be drawn.
+ * @param left Lambda function that calculates the left position for each character based on its index.
+ * @param top Lambda function that calculates the top position for each character based on its index.
+ */
 fun DrawScope.drawText(
     text: String,
     left: (Int) -> Float,

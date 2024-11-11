@@ -14,10 +14,12 @@ import screens.*
 fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,
-        title = "Birne (predev 3)",
+        title = "Birne (${Birne.VERSION})",
         state = WindowState(width = 598.dp, height = 598.dp, position = WindowPosition(Alignment.Center)),
         alwaysOnTop = true
     ) {
+
+        // Update of game data
         Birne.loadGameData()
 
         val state by Birne.state

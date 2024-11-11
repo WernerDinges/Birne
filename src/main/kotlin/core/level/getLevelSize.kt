@@ -2,6 +2,12 @@ package core.level
 
 import kotlin.random.Random.Default.nextInt
 
+/**
+ * Determines the dimensions of the game level based on the provided difficulty setting.
+ *
+ * @param difficulty The difficulty setting for the level; this influences its dimensions.
+ * @return A pair containing the width and height of the level.
+ */
 fun getLevelSize(difficulty: Int): Pair<Int, Int> = when(difficulty) {
     1 -> nextInt(9, 12) to nextInt(9, 12)
     2 -> nextInt(10, 13) to nextInt(10, 13)

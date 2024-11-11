@@ -4,6 +4,16 @@ import core.generationEngine.EngineScope
 import core.generationEngine.common.LimbPath
 import core.level.TileID.WALL
 
+/**
+ * Performs a depth-first search (DFS) to determine the longest path of limbs.
+ *
+ * This method explores all possible paths in the game level's limb structure to find the longest connected sequence.
+ * It utilizes recursive DFS to traverse the limb connections and keeps track of visited nodes and the current path.
+ * Once the longest path is identified, it selects appropriate start and end points from the path.
+ *
+ * @return A `Triple` containing the longest identified `LimbPath`, the start coordinates as a `Pair` of integers,
+ * and the end coordinates as a `Pair` of integers.
+ */
 fun EngineScope.dfsPath(): Triple<LimbPath, Pair<Int, Int>, Pair<Int, Int>> {
     var longest = LimbPath()
 

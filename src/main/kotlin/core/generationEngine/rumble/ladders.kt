@@ -8,6 +8,18 @@ import core.level.TileID.VINE
 import core.level.TileID.WALL
 import kotlin.random.Random
 
+/**
+ * Adds ladders or vines to the vertical limbs in the level configuration.
+ *
+ * This method processes the longest path's vertical limbs, grouping them by their horizontal positions.
+ * Each vertical limb group is then sorted based on their vertical start positions. Depending on a random
+ * boolean, a vertical limb is either filled with ladder or vine tiles.
+ *
+ * The method performs the following actions:
+ * - Groups and sorts the vertical limbs.
+ * - Fills the gaps between the vertical limbs with ladder or vine tiles.
+ * - If a vine is chosen, it also grows upwards until it meets a ceiling or wall.
+ */
 fun EngineScope.ladders() {
     val verticals = longestPath.limbs
         .filter { it.isVertical }

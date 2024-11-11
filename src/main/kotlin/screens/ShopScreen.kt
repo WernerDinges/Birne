@@ -26,12 +26,36 @@ import utils.drawText
 import utils.sizeOfCell
 import kotlin.math.sqrt
 
+/**
+ * Composable function for displaying the shop screen.
+ *
+ * This screen allows the player to browse and purchase various items.
+ * Players can navigate through items using the 'A' and 'D' keys, and
+ * purchase items with the 'Spacebar' key if available.
+ *
+ * Keyboard Controls:
+ * - 'Escape': Return to the menu.
+ * - 'A': Move selection left.
+ * - 'D': Move selection right.
+ * - 'Spacebar': Purchase the selected item if available.
+ *
+ * The screen displays the following UI elements:
+ * - Title of the shop.
+ * - Current coins of the player.
+ * - List of shop items with their icons.
+ * - Item details including name, description, and price for the selected item.
+ * - Purchase hint for the selected item.
+ *
+ * The available items include:
+ * - Random skin unlocks for a price based on the number of unlocked skins.
+ * - New difficulty levels for a dungeon, purchasable based on the player's progress.
+ */
 @Composable
 fun ShopScreen() {
     val requester = remember { FocusRequester() }
 
     val itemsMaxWidth = 6
-    val skinCost = ( 50 * sqrt(gameData.skins.size.toFloat()) ).toInt()
+    val skinCost = ( 40 + 10 * sqrt(gameData.skins.size.toFloat()) ).toInt()
     val items by remember { mutableStateOf(mutableListOf<ShopItem>().apply {
         val skins = playerSkinList().filter { it !in gameData.skins }
         if(skins.isNotEmpty())

@@ -7,6 +7,20 @@ import core.level.TileID.WALL
 import kotlin.math.exp
 import kotlin.random.Random
 
+/**
+ * Places spikes on eligible horizontal limbs within the level configuration.
+ *
+ * This function iterates over all limbs in the `limbs` list and checks if they are
+ * horizontal (`!limb.isVertical`) and can contain dangers (`limb.canContainDangers`).
+ * For each eligible limb, a random chance, influenced by the level's difficulty,
+ * determines if spikes should be placed.
+ *
+ * If the probability check is successful, the function evaluates each tile
+ * position within the limb. It ensures the placement of spikes under various
+ * conditions, such as adjacency to walls, the absence of predefined blocks, and
+ * proximity to existing spikes. If all conditions are met, a spike is placed
+ * at the determined position.
+ */
 fun EngineScope.spikes() {
     for(limb in limbs.list.filter { !it.isVertical && it.canContainDangers }) {
 
