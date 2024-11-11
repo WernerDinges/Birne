@@ -244,7 +244,7 @@ Another notable thing is the abstraction from framework details. Drawing on the 
 and the project provides an incomplete but good abstraction to sharpen the focus on higher-level coding tasks:
 ```kotlin
 interface Entity {
-    ...
+    // ...
 
     val hitbox: Size
     val hitboxOffset: Offset
@@ -256,21 +256,21 @@ interface Entity {
     // so that we can just call the necessary function later on.
     fun DrawScope.draw(screenWidth: Float, offsetX: Float, offsetY: Float)
 
-    ...
+    // ...
 }
 ```
 [Source](https://github.com/WernerDinges/Birne/blob/master/src/main/kotlin/core/entity/Entity.kt)
 
 ```kotlin
 data class Player(override var x: Float, override var y: Float, ...): Entity {
-    ...
+    // ...
     override val hitbox = Size(0.5f, 0.75f)
     override val hitboxOffset = Offset(0.25f, 0.25f)
 
     var vx = 0f
     var vy = 0f
 
-    ...
+    // ...
 
     override fun DrawScope.draw(screenWidth: Float, offsetX: Float, offsetY: Float) {
 
@@ -302,14 +302,14 @@ data class Player(override var x: Float, override var y: Float, ...): Entity {
         }
     }
 
-    ...
+    // ...
 }
 ```
 [Source](https://github.com/WernerDinges/Birne/blob/master/src/main/kotlin/core/entity/player/Player.kt)
 
 Ultimately, using this function looks like this:
 ```kotlin
-    Canvas(...) {
+    Canvas(/* ... */) {
         with(state.instance.level!!) { translate(left = trigger) {
             drawMap()
             drawUI()
@@ -325,17 +325,17 @@ class Level(
     gameConfig: GameConfig,
     playerInput: PlayerInput
 ) {
-    ...
+    // ...
 
     fun DrawScope.drawMap() {
-        ...
+        // ...
 
         with(player) {
             draw(w, offsetX, offsetY)
         }
     }
 
-    ...
+    // ...
 }
 ```
 [Source](https://github.com/WernerDinges/Birne/blob/master/src/main/kotlin/core/level/Level.kt)
