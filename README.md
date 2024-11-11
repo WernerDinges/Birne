@@ -23,6 +23,7 @@ coins to unlock new skins and levels, meeting a variety of enemies with each pro
 ## I want to play it
 
 You can already download the game in [Releases](https://github.com/WernerDinges/Birne/releases) page!
+Unzip the package and launch EXE to play.
 
 - **Explore Procedurally Generated Rooms**: Each dungeon room is a unique challenge populated with obstacles, decorations, and monsters.
 - **Collect and Customize**: Gather coins, unlock new levels, and purchase skins to customize your character.
