@@ -2,7 +2,9 @@
 
 **Birne** (German for "Pear") is a minimalistic 2D-platformer built using Kotlin + Compose for Desktop framework.
 In this open-source adventure, you guide a cute, adventurous pear through procedurally generated dungeons, dodging enemies and collecting coins.
-Birne is a creative playground for experimenting with procedural generation, DSLs, and modular game design in Kotlin. 
+Birne is a creative playground for experimenting with procedural generation, DSLs, and modular game design in Kotlin.
+
+![birnedemo](https://github.com/user-attachments/assets/9b3c52c5-1cc8-498b-8e02-05e5fdfe92a5)
 
 ## What are you interested in?
 
