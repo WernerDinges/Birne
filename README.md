@@ -10,8 +10,7 @@ Birne is a creative playground for experimenting with procedural generation, DSL
 
 - [I want to play it](#i-want-to-play-it)
 - [I'm a developer and I want to check out the level generation code](#procedural-generation)
-- [I'm an employer and I want to check out how you organized the code for your mind-blowing project](#kotlin-dsl-for-modular-design)
-
+- [I'm an employer and I want to check out how you organized a DSL (Domain Specific Language) for your mind-blowing project](#kotlin-dsl-for-modular-design)
 - [I want to donate you](https://www.donationalerts.com/r/wernerdinges)
 
 ## About the Game
